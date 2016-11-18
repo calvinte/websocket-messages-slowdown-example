@@ -1,4 +1,4 @@
-queue = [];
+queue = '';
 onmessage = function(e) {
     var connectStr = 'connect';
     var connectPort = null;
@@ -6,8 +6,8 @@ onmessage = function(e) {
         connectPort = e.data.slice(connectStr.length);
         connect(connectPort);
     } else if (e.data === 'provide' && queue.length) {
-        postMessage(JSON.stringify(queue));
-        queue = [];
+        postMessage(queue);
+        queue = '';
     }
 };
 
@@ -17,13 +17,13 @@ function connect(_socketPort) {
     socket.onmessage = function(socketMessage) {
         var message = socketMessage.data;
         if (message[2] === '|' && message.length === 5) {
-            queue.push(message);
+            queue += message;
         }
     };
 
     socket.onopen = function() {
-        postMessage(JSON.stringify(queue));
-        queue = [];
+        postMessage(queue);
+        queue = '';
         socket.send('ping');
     };
 }

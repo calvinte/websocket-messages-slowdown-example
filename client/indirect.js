@@ -8,7 +8,7 @@ define([
     var forceProvideTimeout = 600;
 
     worker.onmessage = function(e) {
-        var events = JSON.parse(e.data);
+        var events = e.data.match(/.{1,5}/g);
         lastMessageTime = Date.now();
         domHelper.drawEls(events, ++messageCount, function() {
             worker.postMessage('provide');
