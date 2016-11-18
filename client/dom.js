@@ -57,9 +57,10 @@ define([
 
             if (this.elements.length < this.maxNumberOfElements) {
                 element = this.createNewElement(x, y);
+                this.elements.push(element);
+
                 return function() {
                     element.classList.remove('hide');
-                    this.elements.push(element);
                 }.bind(this);
             } else {
                 element = this.elements[messageIndex % this.maxNumberOfElements];
