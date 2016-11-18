@@ -7,5 +7,16 @@
   "dependencies": {
     "requirejs": "^2.3.2",
     "underscore": "^1.8.3"
-  }
+  },
+  "engines": {
+    "node": "v4.4.1"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "description": "Websocket Messages cause Slowdown",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/calvintennant/websocket-messages-slowdown-example.git"
+  },
 }
