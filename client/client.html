@@ -22,6 +22,19 @@ html, body {
     transition: opacity .5s;
     opacity: 1;
 }
+
+.bubble {
+    -webkit-animation: bounce 2.0s infinite ease-in-out;
+    animation: bounce 2.0s infinite ease-in-out;
+    border: 10px solid rgba(0, 0, 0, 0.85);
+    border-radius: 50%;
+    height: 50px;
+    margin: -35px 0 0 -35px;
+    position: absolute;
+    width: 50px;
+    z-index: 2;
+}
+
 .hide {
     opacity: 0;
 }
@@ -50,7 +63,7 @@ html, body {
     background-color: rgba(0, 0, 0, 0.85);
     border-radius: 100%;
     -webkit-animation: bounce 2.0s infinite ease-in-out;
-    animation: bounce 2.0s infinite ease-in-out
+    animation: bounce 2.0s infinite ease-in-out;
 }
 
 .chasing-dots .dot2 {

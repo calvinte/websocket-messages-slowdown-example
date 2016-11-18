@@ -1,10 +1,25 @@
 define([
     'underscore',
 ], function(_) {
-    return {
+    var domHelper = {
         maxNumberOfElements: 750,
         elementSize: 30,
         elements: [],
+        createNewBubble: function(event) {
+            var el = document.createElement('div');
+            el.classList.add('bubble');
+            el.style.left = event.clientX + 'px';
+            el.style.top = event.clientY + 'px';
+            requestAnimationFrame(function() {
+                document.body.appendChild(el);
+                setTimeout(function() {
+                    requestAnimationFrame(function() {
+                        document.body.removeChild(el);
+                    });
+                }, 1000);
+            });
+
+        },
         createNewElement: function(x, y) {
             var el = document.createElement('div');
             el.classList.add('dynamo');
@@ -80,5 +95,8 @@ define([
             return 'hsl(' + Math.floor((360 * ((now / 10000 % now) % 1))) + ', 100%, 50%)';
         },
     };
+
+    window.addEventListener('click', domHelper.createNewBubble);
+    return domHelper;
 });
 
