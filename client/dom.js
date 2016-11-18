@@ -2,8 +2,8 @@ define([
     'underscore',
 ], function(_) {
     return {
-        maxNumberOfElements: 500,
-        elementSize: 30,
+        maxNumberOfElements: 750,
+        elementSize: 20,
         elements: [],
         createNewElement: function(x, y) {
             var el = document.createElement('div');
