@@ -13,8 +13,8 @@ onmessage = function(e) {
     }
 };
 
-function connect(_socketPort) {
-    var socket = new WebSocket('ws://localhost:' + _socketPort);
+function connect(url) {
+    var socket = new WebSocket(url);
 
     socket.onmessage = function(socketMessage) {
         var message = socketMessage.data;

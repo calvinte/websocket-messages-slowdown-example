@@ -6,6 +6,12 @@ define([
     var worker = new Worker(require.toUrl('indirectWorker.js'));
     var lastMessageTime = null;
     var forceProvideTimeout = 600;
+    var socketUrl = '';
+    if (window.location.href.split('://')[0] === 'https') {
+        socketUrl = 'wss://' + window.location.hostname;
+    } else {
+        socketUrl = 'ws://' + window.location.hostname + ':' + _socketPort;
+    }
 
     worker.onmessage = function(e) {
         var events = e.data.match(/.{1,5}/g);
@@ -25,6 +31,6 @@ define([
         };
     }, 100);
 
-    worker.postMessage('connect' + _socketPort);
+    worker.postMessage('connect' + socketUrl);
 });
 

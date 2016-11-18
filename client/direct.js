@@ -6,7 +6,13 @@ define([
     var elementSize = 30;
     var elements = [];
     var messageCount = -1;
-    var socket = new WebSocket((window.location.href.split('://')[0] === 'https' ? 'wss' : 'ws') + '://' + window.location.hostname + ':' + _socketPort);
+    var socket, url = '';
+    if (window.location.href.split('://')[0] === 'https') {
+        url = 'wss://' + window.location.hostname;
+    } else {
+        url = 'ws://' + window.location.hostname + ':' + _socketPort;
+    }
+    socket = new WebSocket(url);
     socket.onmessage = function(socketMessage) {
         var message, messageIndex, deferFn;
 
