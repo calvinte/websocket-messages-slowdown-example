@@ -18,5 +18,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/calvintennant/websocket-messages-slowdown-example.git"
-  },
+  }
 }
+
