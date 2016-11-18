@@ -2,7 +2,7 @@ define([
     'underscore',
 ], function(_) {
     return {
-        maxNumberOfElements: 750,
+        maxNumberOfElements: 500,
         elementSize: 20,
         elements: [],
         createNewElement: function(x, y) {
@@ -14,7 +14,6 @@ define([
             el.style.top = y + 'px';
             el.style.width = this.elementSize + 'px';
             el.style.backgroundColor = this.getBackgroundColor();
-            document.body.appendChild(el);
             return el;
         },
         drawElsCount: -1,
@@ -44,7 +43,7 @@ define([
             }.bind(this));
         },
         drawEl: function(message, messageIndex, windowWidth, windowHeight) {
-            var x, y, element = null;
+            var x, y, element = null, oldElement;
 
             if (!(windowHeight && windowWidth)) {
                 windowHeight = window.innerHeight;
@@ -57,19 +56,25 @@ define([
 
             if (this.elements.length < this.maxNumberOfElements) {
                 element = this.createNewElement(x, y);
+                document.body.appendChild(element);
                 this.elements.push(element);
 
                 return function() {
                     element.classList.remove('hide');
                 }.bind(this);
             } else {
-                element = this.elements[messageIndex % this.maxNumberOfElements];
-                element.classList.add('hide');
+                oldElement = this.elements[messageIndex % this.maxNumberOfElements];
+                oldElement.classList.add('hide');
+
+                element = this.createNewElement(x, y);
+                document.body.appendChild(element);
+                this.elements[messageIndex % this.maxNumberOfElements] = element;
+
                 return function() {
                     element.classList.remove('hide');
-                    element.style.backgroundColor = this.getBackgroundColor();
-                    element.style.left = x + 'px';
-                    element.style.top = y + 'px';
+                    if (document.body === oldElement.parentElement) {
+                        document.body.removeChild(oldElement);
+                    }
                 }.bind(this);
             }
         },
