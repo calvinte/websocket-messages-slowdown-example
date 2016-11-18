@@ -10,9 +10,13 @@ define([
     worker.onmessage = function(e) {
         var events = e.data.match(/.{1,5}/g);
         lastMessageTime = Date.now();
-        domHelper.drawEls(events, ++messageCount, function() {
+        domHelper.drawEls(events, messageCount, function() {
             worker.postMessage('provide');
         });
+
+        if (events && events.length) {
+            messageCount += events.length;
+        }
     };
 
     setInterval(function() {

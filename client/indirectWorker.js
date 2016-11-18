@@ -6,7 +6,9 @@ onmessage = function(e) {
         connectPort = e.data.slice(connectStr.length);
         connect(connectPort);
     } else if (e.data === 'provide' && queue.length) {
-        postMessage(queue);
+        setTimeout(function() {
+            postMessage(queue);
+        }, 20);
         queue = '';
     }
 };
@@ -22,7 +24,9 @@ function connect(_socketPort) {
     };
 
     socket.onopen = function() {
-        postMessage(queue);
+        setTimeout(function() {
+            postMessage(queue);
+        }, 20);
         queue = '';
         socket.send('ping');
     };

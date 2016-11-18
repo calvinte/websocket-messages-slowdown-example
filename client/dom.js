@@ -27,11 +27,11 @@ define([
                 }.bind(this));
 
                 cb();
-
                 setTimeout(function() {
                     _.each(deferFns, function(fn) {
                         fn();
                     });
+
                 }, 500);
 
             }.bind(this));
