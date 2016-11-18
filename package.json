@@ -5,6 +5,7 @@
   "author": "Calvin Tennant",
   "license": "UNLICENSED",
   "dependencies": {
+    "express": "^4.14.0",
     "requirejs": "^2.3.2",
     "underscore": "^1.8.3"
   },
@@ -20,4 +21,3 @@
     "url": "git+https://github.com/calvintennant/websocket-messages-slowdown-example.git"
   }
 }
-
