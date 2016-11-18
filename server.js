@@ -5,7 +5,7 @@ var WebSocket = require('ws');
 var _ = require('underscore');
 var Url = require('url');
 
-var socketPort = '3002';
+var socketPort = process.env.PORT || '3002';
 var socketClients = [];
 var socketServer = new WebSocket.Server({
     port: socketPort,
@@ -25,7 +25,7 @@ app.get('/', function(req, res) {
         res.status(200).send(fs.readFileSync('client/client.html', 'utf8').replace('___SOCKETPORT___', socketPort).replace('__SOCKETSCRIPT__', 'direct.js'));
     }
 });
-app.listen(3000);
+app.listen(process.env.PORT || '3000');
 
 setTimeout(function updateSockets() {
     if (socketClients.length) {
