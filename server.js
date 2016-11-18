@@ -29,10 +29,11 @@ app.listen(3000);
 
 setTimeout(function updateSockets() {
     if (socketClients.length) {
-        _.each(socketClients, function(clientSocket) {
+        _.each(socketClients, function(clientSocket, i) {
             var x, y;
 
             if (!clientSocket) {
+                socketClients.splice(i, 1);
                 return;
             }
 
