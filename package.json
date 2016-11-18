@@ -1,0 +1,11 @@
+{
+  "name": "websocket-messages-slowdown-example",
+  "version": "0.0.1",
+  "main": "index.js",
+  "author": "Calvin Tennant",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "requirejs": "^2.3.2",
+    "underscore": "^1.8.3"
+  }
+}
