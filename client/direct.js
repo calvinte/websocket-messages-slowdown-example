@@ -6,7 +6,7 @@ define([
     var elementSize = 30;
     var elements = [];
     var messageCount = -1;
-    var socket = new WebSocket('ws://localhost:' + _socketPort);
+    var socket = new WebSocket('ws://' + window.location.hostname + ':' + _socketPort);
     socket.onmessage = function(socketMessage) {
         var message, messageIndex, deferFn;
 
