@@ -14,7 +14,7 @@ define([
     }
     socket = new WebSocket(url);
     socket.onmessage = function(socketMessage) {
-        var message, messageIndex, deferFn;
+        var message, messageIndex, deferFn, i;
         try {
             message = JSON.parse(socketMessage.data);
         } catch (e) {
@@ -23,6 +23,10 @@ define([
 
         if (message.x && message.y) {
             deferFn = domHelper.drawEl(message.x + '' + message.y, ++messageCount);
+            // Do stuff with data.
+            for (i = message.dat.length - 1; i > -1; i--) {
+                message.dat[i] = message.dat[i + 1] || message.dat[0]
+            }
             setTimeout(deferFn, 500);
         }
 

@@ -50,7 +50,7 @@ setTimeout(function updateSockets() {
         });
     }
 
-    setTimeout(updateSockets, 1 + Math.random() * 3);
+    setTimeout(updateSockets, 3 + Math.random() * 3);
 }, 30);
 
 function handleServerConnection(clientSocket) {

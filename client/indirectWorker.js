@@ -28,6 +28,10 @@ function connect(url) {
             return;
         }
         if (message.x && message.y) {
+            // Do stuff with data.
+            for (i = message.dat.length - 1; i > -1; i--) {
+                message.dat[i] = message.dat[i + 1] || message.dat[0]
+            }
             queue += message.x + '' + message.y;
         }
     };
