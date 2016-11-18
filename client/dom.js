@@ -16,10 +16,8 @@ define([
             el.style.backgroundColor = this.getBackgroundColor();
             return el;
         },
-        drawElsCount: -1,
         drawEls: function(messages, startIndex, cb) {
             var deferFns = [];
-            var idx = ++this.drawElsCount;
 
             var windowHeight = window.innerHeight;
             var windowWidth = window.innerWidth;
