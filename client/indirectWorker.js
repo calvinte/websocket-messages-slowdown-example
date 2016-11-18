@@ -13,7 +13,7 @@ onmessage = function(e) {
         setTimeout(function() {
             postMessage(oldQueue);
             oldQueue = null;
-        }, 20);
+        }, 60);
     }
 };
 
@@ -21,9 +21,14 @@ function connect(url) {
     var socket = new WebSocket(url);
 
     socket.onmessage = function(socketMessage) {
-        var message = socketMessage.data;
-        if (message[2] === '|' && message.length === 5) {
-            queue += message;
+        var message;
+        try {
+            message = JSON.parse(socketMessage.data);
+        } catch (e) {
+            return;
+        }
+        if (message.x && message.y) {
+            queue += message.x + '' + message.y;
         }
     };
 
@@ -33,7 +38,7 @@ function connect(url) {
         setTimeout(function() {
             postMessage(oldQueue);
             oldQueue = null;
-        }, 20);
+        }, 60);
         socket.send('ping');
     };
 }

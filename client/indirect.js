@@ -5,7 +5,7 @@ define([
     var messageCount = -1;
     var worker = new Worker(require.toUrl('indirectWorker.js'));
     var lastMessageTime = null;
-    var forceProvideTimeout = 600;
+    var forceProvideTimeout = 5000;
     var socketUrl = '';
     if (window.location.href.split('://')[0] === 'https') {
         socketUrl = 'wss://' + window.location.hostname;
@@ -14,7 +14,7 @@ define([
     }
 
     worker.onmessage = function(e) {
-        var events = e.data.match(/.{1,5}/g);
+        var events = e.data.match(/.{1,4}/g);
         lastMessageTime = Date.now();
         domHelper.drawEls(events, messageCount, function() {
             worker.postMessage('provide');
@@ -29,7 +29,7 @@ define([
         if (Date.now() - lastMessageTime > forceProvideTimeout) {
             worker.postMessage('provide');
         };
-    }, 100);
+    }, 1000);
 
     worker.postMessage('connect' + socketUrl);
 });

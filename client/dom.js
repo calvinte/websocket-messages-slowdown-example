@@ -2,8 +2,8 @@ define([
     'underscore',
 ], function(_) {
     return {
-        maxNumberOfElements: 500,
-        elementSize: 20,
+        maxNumberOfElements: 750,
+        elementSize: 30,
         elements: [],
         createNewElement: function(x, y) {
             var el = document.createElement('div');
@@ -26,7 +26,10 @@ define([
                     deferFns.push(this.drawEl(message, startIndex + i, windowWidth, windowHeight));
                 }.bind(this));
 
-                cb();
+                requestAnimationFrame(function() {
+                    cb();
+                });
+
                 setTimeout(function() {
                     _.each(deferFns, function(fn) {
                         fn();
@@ -45,7 +48,7 @@ define([
             }
 
             x = Math.round(parseInt(message.slice(0, 2)) / (100 * this.elementSize) * windowWidth) * this.elementSize;
-            y = Math.round(parseInt(message.slice(3, 5)) / (100 * this.elementSize) * windowHeight) * this.elementSize;
+            y = Math.round(parseInt(message.slice(2, 4)) / (100 * this.elementSize) * windowHeight) * this.elementSize;
 
 
             if (this.elements.length < this.maxNumberOfElements) {

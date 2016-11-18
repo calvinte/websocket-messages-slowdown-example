@@ -1,5 +1,6 @@
 var fs = require('fs');
 var express = require('express');
+var crypto = require('crypto');
 var app = express();
 var WebSocket = require('ws');
 var _ = require('underscore');
@@ -44,12 +45,12 @@ setTimeout(function updateSockets() {
             y = Math.random().toString().slice(2, 4);
 
             if (clientSocket.readyState === 1) {
-                clientSocket.send(x + '|' + y);
+                clientSocket.send(JSON.stringify({x:x, y:y, dat:crypto.randomBytes(1e+4).toString('hex')}));
             }
         });
     }
 
-    setTimeout(updateSockets, (1 + Math.random()) * 5);
+    setTimeout(updateSockets, 1 + Math.random() * 3);
 }, 30);
 
 function handleServerConnection(clientSocket) {
