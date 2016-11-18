@@ -24,10 +24,6 @@ define([
             var windowHeight = window.innerHeight;
             var windowWidth = window.innerWidth;
             requestAnimationFrame(function() {
-                if (idx !== this.drawElsCount) {
-                    return;
-                }
-
                 _.each(messages, function(message, i) {
                     deferFns.push(this.drawEl(message, startIndex + i, windowWidth, windowHeight));
                 }.bind(this));
