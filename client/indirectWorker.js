@@ -1,15 +1,19 @@
 queue = '';
 onmessage = function(e) {
     var connectStr = 'connect';
+    var oldQueue;
     var connectPort = null;
     if (e.data.indexOf(connectStr) === 0) {
         connectPort = e.data.slice(connectStr.length);
         connect(connectPort);
     } else if (e.data === 'provide' && queue.length) {
-        setTimeout(function() {
-            postMessage(queue);
-        }, 20);
+        oldQueue = queue;
         queue = '';
+
+        setTimeout(function() {
+            postMessage(oldQueue);
+            oldQueue = null;
+        }, 20);
     }
 };
 
@@ -24,10 +28,12 @@ function connect(url) {
     };
 
     socket.onopen = function() {
-        setTimeout(function() {
-            postMessage(queue);
-        }, 20);
+        var oldQueue = queue;
         queue = '';
+        setTimeout(function() {
+            postMessage(oldQueue);
+            oldQueue = null;
+        }, 20);
         socket.send('ping');
     };
 }
