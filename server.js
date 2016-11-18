@@ -4,13 +4,17 @@ var app = express();
 var WebSocket = require('ws');
 var _ = require('underscore');
 var Url = require('url');
+var http = require('http');
 
-var socketPort = process.env.PORT || '3002';
+var port = process.env.PORT || '3000';
 var socketClients = [];
-var socketServer = new WebSocket.Server({
-    port: socketPort,
-});
 
+var server = http.createServer(app);
+server.listen(port);
+
+var socketServer = new WebSocket.Server({
+    server: server,
+});
 socketServer.on('connection', handleServerConnection);
 
 app.use(express.static('src'));
@@ -20,12 +24,11 @@ app.use(express.static('node_modules'));
 app.get('/', function(req, res) {
     var query = Url.parse(req.url).query;
     if (query && query.indexOf('useWebWorker=true') > -1) {
-        res.status(200).send(fs.readFileSync('client/client.html', 'utf8').replace('___SOCKETPORT___', socketPort).replace('__SOCKETSCRIPT__', 'indirect.js'));
+        res.status(200).send(fs.readFileSync('client/client.html', 'utf8').replace('___SOCKETPORT___', port).replace('__SOCKETSCRIPT__', 'indirect.js'));
     } else {
-        res.status(200).send(fs.readFileSync('client/client.html', 'utf8').replace('___SOCKETPORT___', socketPort).replace('__SOCKETSCRIPT__', 'direct.js'));
+        res.status(200).send(fs.readFileSync('client/client.html', 'utf8').replace('___SOCKETPORT___', port).replace('__SOCKETSCRIPT__', 'direct.js'));
     }
 });
-app.listen(process.env.PORT || '3000');
 
 setTimeout(function updateSockets() {
     if (socketClients.length) {
