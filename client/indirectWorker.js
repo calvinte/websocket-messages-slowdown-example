@@ -30,7 +30,7 @@ function connect(url) {
         if (message.x && message.y) {
             // Do stuff with data.
             for (i = message.dat.length - 1; i > -1; i--) {
-                message.dat[i] = message.dat[i + 1] || message.dat[0]
+                message.dat = message.dat.substr(0, i) + (message.dat[i - 1] || message.dat[i]) + message.dat.substr(i + 1);
             }
             queue += message.x + '' + message.y;
         }

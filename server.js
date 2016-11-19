@@ -45,7 +45,7 @@ setTimeout(function updateSockets() {
             y = Math.random().toString().slice(2, 4);
 
             if (clientSocket.readyState === 1) {
-                clientSocket.send(JSON.stringify({x:x, y:y, dat:crypto.randomBytes(1e+4).toString('hex')}));
+                clientSocket.send(JSON.stringify({x:x, y:y, dat:crypto.randomBytes(1e+3).toString('hex')}));
             }
         });
     }
