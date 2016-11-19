@@ -48,16 +48,16 @@ setTimeout(function updateSockets() {
                 return;
             }
 
-                x = Math.random().toString().slice(2, 4);
-                y = Math.random().toString().slice(2, 4);
+            x = Math.random().toString().slice(2, 4);
+            y = Math.random().toString().slice(2, 4);
 
-                if (clientSocket.readyState === 1) {
-                    clientSocket.send(JSON.stringify({
-                        x:x,
-                        y:y,
-                        dat:crypto.randomBytes(1e+4).toString('hex')
-                    }));
-                }
+            if (clientSocket.readyState === 1) {
+                clientSocket.send(JSON.stringify({
+                    x:x,
+                    y:y,
+                    dat:crypto.randomBytes(1e+3 * 2).toString('hex')
+                }));
+            }
         });
     }
 
