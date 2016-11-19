@@ -1,7 +1,8 @@
 define([
     'underscore',
     'dom',
-], function(_, domHelper) {
+    'messageRateLogger'
+], function(_, domHelper, messageRateLogger) {
     var maxNumberOfElements = 500;
     var elementSize = 30;
     var elements = [];
@@ -12,6 +13,7 @@ define([
     } else {
         url = 'ws://' + window.location.hostname + ':' + _socketPort;
     }
+
     socket = new WebSocket(url);
     socket.onmessage = function(socketMessage) {
         var message, messageIndex, deferFn, i;
@@ -20,6 +22,8 @@ define([
         } catch (e) {
             return;
         }
+
+        messageRateLogger.onMessage();
 
         if (message.x && message.y) {
             deferFn = domHelper.drawEl(message.x + '' + message.y, ++messageCount);
@@ -37,5 +41,6 @@ define([
     socket.onopen = function() {
         socket.send('ping');
     };
-});
 
+    messageRateLogger.start();
+});

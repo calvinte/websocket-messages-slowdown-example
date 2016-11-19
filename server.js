@@ -7,7 +7,7 @@ var _ = require('underscore');
 var Url = require('url');
 var http = require('http');
 
-var port = process.env.PORT || '3000';
+var port = process.env.PORT || '4646';
 var socketClients = [];
 
 var server = http.createServer(app);
@@ -31,8 +31,15 @@ app.get('/', function(req, res) {
     }
 });
 
+var numMessagesPerSecond = 20;
+var lastCurrentTime = Date.now();
 setTimeout(function updateSockets() {
-    if (socketClients.length) {
+    var currentTime = Date.now();
+    var timeSinceLastRunSecs = (currentTime - lastCurrentTime) * 0.001;
+    lastCurrentTime = currentTime;
+
+    var shouldSendMessage = Math.random() < numMessagesPerSecond * timeSinceLastRunSecs;
+    if (shouldSendMessage && socketClients.length) {
         _.each(socketClients, function(clientSocket, i) {
             var x, y;
 
@@ -41,16 +48,20 @@ setTimeout(function updateSockets() {
                 return;
             }
 
-            x = Math.random().toString().slice(2, 4);
-            y = Math.random().toString().slice(2, 4);
+                x = Math.random().toString().slice(2, 4);
+                y = Math.random().toString().slice(2, 4);
 
-            if (clientSocket.readyState === 1) {
-                clientSocket.send(JSON.stringify({x:x, y:y, dat:crypto.randomBytes(1e+4).toString('hex')}));
-            }
+                if (clientSocket.readyState === 1) {
+                    clientSocket.send(JSON.stringify({
+                        x:x,
+                        y:y,
+                        dat:crypto.randomBytes(1e+4).toString('hex')
+                    }));
+                }
         });
     }
 
-    setTimeout(updateSockets, 3 + Math.random() * 3);
+    setTimeout(updateSockets, Math.floor(Math.random() * 8 + 10));
 }, 30);
 
 function handleServerConnection(clientSocket) {
@@ -82,4 +93,3 @@ function handleClientMessage(message) {
         this.send('pong');
     }
 };
-
