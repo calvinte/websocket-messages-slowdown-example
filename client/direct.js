@@ -1,8 +1,9 @@
 define([
     'underscore',
     'dom',
-    'messageRateLogger'
-], function(_, domHelper, messageRateLogger) {
+    'messageRateLogger',
+    'load'
+], function(_, domHelper, messageRateLogger, load) {
     var maxNumberOfElements = 500;
     var elementSize = 30;
     var elements = [];
@@ -27,10 +28,7 @@ define([
 
         if (message.x && message.y) {
             deferFn = domHelper.drawEl(message.x + '' + message.y, ++messageCount);
-            // Do stuff with data.
-            for (i = message.dat.length - 1; i > -1; i--) {
-                message.dat = message.dat.substr(0, i) + (message.dat[i - 1] || message.dat[i]) + message.dat.substr(i + 1);
-            }
+            load.run(200);
             setTimeout(deferFn, 500);
         }
 
@@ -43,4 +41,5 @@ define([
     };
 
     messageRateLogger.start();
+    load.periodicLarge();
 });

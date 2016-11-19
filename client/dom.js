@@ -29,6 +29,7 @@ define([
             el.style.top = y + 'px';
             el.style.width = this.elementSize + 'px';
             el.style.backgroundColor = this.getBackgroundColor();
+            el.innerHTML = Math.floor(Math.random() * 10).toString();
             return el;
         },
         drawEls: function(messages, startIndex, cb) {
@@ -99,4 +100,3 @@ define([
     window.addEventListener('click', domHelper.createNewBubble);
     return domHelper;
 });
-
