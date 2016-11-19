@@ -53,6 +53,22 @@ html, body {
     z-index: 1;
 }
 
+.chasing-dots.left {
+    left: 0;
+}
+
+.chasing-dots.right {
+    left: 100%;
+}
+
+.chasing-dots.top {
+    top: 0;
+}
+
+.chasing-dots.bottom {
+    top: 100%;
+}
+
 .chasing-dots .dot1,
 .chasing-dots .dot2 {
     width: 60%;
@@ -120,7 +136,16 @@ html, body {
         </style>
     </head>
     <body>
+        <div class="chasing-dots top"><div class="dot1"></div><div class="dot2"></div></div>
+        <div class="chasing-dots top left"><div class="dot1"></div><div class="dot2"></div></div>
+        <div class="chasing-dots left"><div class="dot1"></div><div class="dot2"></div></div>
+        <div class="chasing-dots bottom left"><div class="dot1"></div><div class="dot2"></div></div>
         <div class="chasing-dots"><div class="dot1"></div><div class="dot2"></div></div>
+        <div class="chasing-dots top right"><div class="dot1"></div><div class="dot2"></div></div>
+        <div class="chasing-dots right"><div class="dot1"></div><div class="dot2"></div></div>
+        <div class="chasing-dots bottom right"><div class="dot1"></div><div class="dot2"></div></div>
+        <div class="chasing-dots bottom"><div class="dot1"></div><div class="dot2"></div></div>
         <div class='info'>collecting&hellip;</div>
+
     </body>
 </html>
