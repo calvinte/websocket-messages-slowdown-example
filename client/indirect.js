@@ -14,6 +14,11 @@ define([
     }
 
     worker.onmessage = function(e) {
+        if (e.data.substring(0, 4) === 'rate') {
+            document.querySelector('.info').innerHTML = e.data.substring(4);
+            return;
+        }
+
         var events = e.data.match(/.{1,4}/g);
         lastMessageTime = Date.now();
         domHelper.drawEls(events, messageCount, function() {
@@ -33,4 +38,3 @@ define([
 
     worker.postMessage('connect' + socketUrl);
 });
-

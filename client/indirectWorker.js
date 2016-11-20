@@ -1,3 +1,4 @@
+importScripts('requirejs/require.js');
 queue = '';
 onmessage = function(e) {
     var connectStr = 'connect';
@@ -17,34 +18,52 @@ onmessage = function(e) {
     }
 };
 
-function connect(url) {
-    var socket = new WebSocket(url);
-
-    socket.onmessage = function(socketMessage) {
-        var message;
-        try {
-            message = JSON.parse(socketMessage.data);
-        } catch (e) {
-            return;
-        }
-        if (message.x && message.y) {
-            // Do stuff with data.
-            for (i = message.dat.length - 1; i > -1; i--) {
-                message.dat = message.dat.substr(0, i) + (message.dat[i - 1] || message.dat[i]) + message.dat.substr(i + 1);
-            }
-            queue += message.x + '' + message.y;
-        }
-    };
-
-    socket.onopen = function() {
-        var oldQueue = queue;
-        queue = '';
+var connect = function(port) {
+    if (connect.__orig) {
         setTimeout(function() {
-            postMessage(oldQueue);
-            oldQueue = null;
-        }, 60);
-        socket.send('ping');
-    };
-}
+            connect(port);
+        }, 1000);
+    }
+};
+connect.__orig = true;
 
+require([
+    'messageRateLogger',
+    'load'
+], function(messageRateLogger, load) {
 
+    connect = function(url) {
+        var socket = new WebSocket(url);
+
+        socket.onmessage = function(socketMessage) {
+            var message;
+            try {
+                message = JSON.parse(socketMessage.data);
+            } catch (e) {
+                return;
+            }
+
+            messageRateLogger.onMessage();
+
+            if (message.x && message.y) {
+                load.run(200);
+                queue += message.x + '' + message.y;
+            }
+        };
+
+        socket.onopen = function() {
+            var oldQueue = queue;
+            queue = '';
+            setTimeout(function() {
+                postMessage(oldQueue);
+                oldQueue = null;
+            }, 60);
+            socket.send('ping');
+        };
+    }
+
+    messageRateLogger.start(function(rate) {
+        postMessage('rate:' + rate);
+    });
+    load.periodicLarge();
+});

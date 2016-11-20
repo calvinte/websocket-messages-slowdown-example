@@ -139,6 +139,18 @@ html, body {
     user-select: none;
 }
 
+.ui {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -100px -100px;
+    height: 200px;
+    width: 200px;
+    background-color: rgba(190, 35, 165, 0.6);
+    z-index: 3;
+}
+
+
         </style>
     </head>
     <body>
@@ -152,6 +164,13 @@ html, body {
         <div class="chasing-dots bottom right"><div class="dot1"></div><div class="dot2"></div></div>
         <div class="chasing-dots bottom"><div class="dot1"></div><div class="dot2"></div></div>
         <div class='info'>collecting&hellip;</div>
-
+        <div class='ui'>
+            <input type='text'>
+            <select>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+            </select>
+        </div>
     </body>
 </html>

@@ -3,8 +3,10 @@ define([], function() {
         lastRate: null,
         startTime: null,
         count: 0,
-        start: function() {
+        cb: null,
+        start: function(cb) {
             messageRateLogger.startTime = Date.now();
+            messageRateLogger.cb = cb;
             setInterval(messageRateLogger.log, 2000);
         },
         onMessage: function() {
@@ -15,7 +17,11 @@ define([], function() {
             var newRate = 1000 * messageRateLogger.count / (currentTime - messageRateLogger.startTime);
             messageRateLogger.count = 0;
             if (messageRateLogger.lastRate != null) {
-                document.querySelector('.info').innerHTML = messageRateLogger.lastRate.toString();
+                if (!messageRateLogger.cb) {
+                    document.querySelector('.info').innerHTML = messageRateLogger.lastRate.toString();
+                } else {
+                    messageRateLogger.cb(messageRateLogger.lastRate);
+                }
             }
             messageRateLogger.lastRate = newRate;
             messageRateLogger.startTime = currentTime;
